@@ -39,10 +39,15 @@ function preload() {
 }
 
 function setup() {
-    timer = MAX_TIME;
     createCanvas(400,600);
     background(20);
+    init();
     
+    
+}
+
+function init() {
+
     buttonNiv1 = new Button(0.5 * width, 200, "1", true);
     buttonNiv2 = new Button(0.7 * width, 200, "2");
 
@@ -52,9 +57,17 @@ function setup() {
 
     buttonOk = new Button(width / 2, 0.75 * height, "GO!");
     buttonRestart = new Button(width /2, 0.8 * height, "GO!");
-}
 
-function init() {
+    timer = MAX_TIME;
+    bubbles = [];
+    particles = [];
+    numbers =[];
+    bubbles = [];
+    question = [];
+    badAnswer = Infinity;
+    score = 0;
+    clicked = 0;
+    bubblesClicked = 0;
     for (let i = 0; i < level * level; i++) {
         bubbles.push(new Bubble((6 - level) * 40 + 80 * (i % level),80 + Math.floor(i/level) * 80 ,round(random(MIN_NUMBER, MAX_NUMBER))));
     }
@@ -195,15 +208,16 @@ function stateZero() {
 
 function stateOne() {
     
-    if (time > MAX_TIME) {
-        state = 2;
-    }
+    
     fill(255);
     textFont(myFont);
     textSize(24);
     time = round(millis() / 1000) - to;
     text( time, 0.025 * width, 0.025 * height);
     text(score, 0.975 * width, 0.025 * height);
+    if (time > MAX_TIME) {
+        state = 2;
+    }
 
     for (let bub of bubbles) {
         bub.show();
